@@ -52,11 +52,13 @@ document.body.onload = startGame();
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-
+//start a new play
 function startGame() {
-
+ // shuffle deck
+ // clean openedCard array   
     cards = shuffle(cards);
-
+    openedCards = [];
+      // remove  exisiting classes from all cards
     for (var i = 0; i < cards.length; i++) {
         deck.innerHTML = "";
         [].forEach.call(cards, function (item) {
@@ -64,13 +66,15 @@ function startGame() {
         });
         cards[i].classList.remove("show", "open", "match", "disabled");
     }
+    // reset moves
     moves = 0;
     counter.innerHTML = moves;
-    
+    //reset rating stars
     for (var i = 0; i < stars.length; i++) {
         stars[i].style.color = "#FFD700";
         stars[i].style.visibility = "visible";
     }
+     //reset time
     second = 0;
     minute = 0;
     hour = 0;
@@ -80,7 +84,7 @@ function startGame() {
 }
 
 
-
+//classes to display the cards
 var displayCard = function () {
     this.classList.toggle("open");
     this.classList.toggle("show");
@@ -88,7 +92,7 @@ var displayCard = function () {
 };
 
 
-
+// check if cards are natches correctly 
 function cardOpen() {
     openedCards.push(this);
     var len = openedCards.length;
@@ -103,7 +107,7 @@ function cardOpen() {
 };
 
 
-
+//if cards match
 function matched() {
     openedCards[0].classList.add("match", "disabled");
     openedCards[1].classList.add("match", "disabled");
@@ -113,7 +117,7 @@ function matched() {
 }
 
 
-
+//if cards not match
 function unmatched() {
     openedCards[0].classList.add("unmatched");
     openedCards[1].classList.add("unmatched");
@@ -127,14 +131,14 @@ function unmatched() {
 }
 
 
-
+//disable cards
 function disable() {
     Array.prototype.filter.call(cards, function (card) {
         card.classList.add('disabled');
     });
 }
 
-
+//enable cards and disable matched cards
 function enable() {
     Array.prototype.filter.call(cards, function (card) {
         card.classList.remove('disabled');
@@ -145,11 +149,11 @@ function enable() {
 }
 
 
-
+//count  moves
 function moveCounter() {
     moves++;
     counter.innerHTML = moves;
-    
+ //start count
     if (moves == 1) {
         second = 0;
         minute = 0;
@@ -173,7 +177,7 @@ function moveCounter() {
 }
 
 
-
+//game timer
 var second = 0,
     minute = 0;
 hour = 0;
@@ -196,7 +200,7 @@ function startTimer() {
 }
 
 
-
+// congratulations
 function congratulations() {
     if (matchedCard.length == 16) {
         clearInterval(interval);
@@ -216,7 +220,7 @@ function congratulations() {
 }
 
 
-
+// icon on modal
 function closeModal() {
     closeicon.addEventListener("click", function (e) {
         modal.classList.remove("show");
@@ -230,7 +234,7 @@ function playAgain() {
     startGame();
 }
 
-
+// loop to add event listeners
 for (var i = 0; i < cards.length; i++) {
     card = cards[i];
     card.addEventListener("click", displayCard);
